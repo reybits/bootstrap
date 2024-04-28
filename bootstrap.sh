@@ -41,6 +41,8 @@ if ! command -v brew &> /dev/null ; then
     echo ""
     echo "Then run 'bottstrap.sh' again."
     echo ""
+
+    exit
 fi
 
 # --- install zsh --------------------------------------------------------------
