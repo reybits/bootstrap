@@ -24,6 +24,25 @@ CONFIGS_LIST=( nvim tmux vifm vim wezterm zsh )
 TOOLS_LIST=( nvim tmux vifm zoxide fd ripgrep fzf 7zip )
 
 
+# --- install brew -------------------------------------------------------------
+
+if ! command -v brew &> /dev/null ; then
+    echo ""
+    echo "-------------------------------------------------"
+    echo "|                                               |"
+    echo "|           Homebrew isn't installed            |"
+    echo "|                                               |"
+    echo "-------------------------------------------------"
+
+    echo ""
+    echo "Next steps:"
+    echo "  /bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)\""
+
+    echo ""
+    echo "Then run 'bottstrap.sh' again."
+    echo ""
+fi
+
 # --- install zsh --------------------------------------------------------------
 
 helpZshNotInstalled() {
