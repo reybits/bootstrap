@@ -20,8 +20,9 @@ fi
 CONFIGS_LIST=( nvim tmux vifm vim wezterm zsh )
 
 
+if [ $UNAME = "Darwin" ] ; then
 # --- list of tools to install -------------------------------------------------
-TOOLS_LIST=( nvim tmux vifm zoxide fd ripgrep fzf 7zip )
+BREW_TOOLS_LIST=( nvim tmux vifm zoxide fd ripgrep fzf 7zip )
 
 
 # --- install brew -------------------------------------------------------------
@@ -44,6 +45,31 @@ if ! command -v brew &> /dev/null ; then
 
     exit
 fi
+
+
+# --- install brew and tools ---------------------------------------------------
+
+if [ $UNAME = "Darwin" ] ; then
+    echo ""
+    echo "-------------------------------------------------"
+    echo "|                                               |"
+    echo "|       macOS detected, installing tools        |"
+    echo "|                                               |"
+    echo "-------------------------------------------------"
+
+
+    if ! command -v brew &> /dev/null ; then
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
+
+    for i in "${BREW_TOOLS_LIST[@]}"
+    do
+        brew install $i
+    done
+fi
+
+fi
+
 
 # --- install zsh --------------------------------------------------------------
 
@@ -92,10 +118,10 @@ zshPluginInstallUpdate() {
     PLUG_URL=$1
     PLUG_PATH=$ZSH_CUSTOM/$2
     if [ ! -d $PLUG_PATH ]; then
-        echo "Cloning $2..."
+        echo "* Cloning $2..."
         git clone $PLUG_URL $PLUG_PATH
     else
-        echo "Updating $2..."
+        echo "* Updating $2..."
         cd $PLUG_PATH && git pull -p >/dev/null ; cd - >/dev/null
     fi
 }
@@ -123,12 +149,12 @@ for i in "${CONFIGS_LIST[@]}"
 do
     cd $CWD
     if [ ! -d "config-$i" ]; then
-        echo "Cloning config-$i..."
+        echo "* Cloning config-$i..."
         git clone git@bitbucket.org:andreyu/config-$i.git && \
             cd "config-$i" && \
             git submodule update --init
     else
-        echo "Updating config-$i..."
+        echo "* Updating config-$i..."
         cd "config-$i" && \
             git pull -p >/dev/null && \
             git submodule update --init >/dev/null
@@ -149,33 +175,15 @@ echo "-------------------------------------------------"
 
 for i in "${CONFIGS_LIST[@]}"
 do
-    ln -s -F -i "$CWD/config-$i/$i" $CONFIG_DIR
+    if [ -d "$CONFIG_DIR/$i" ]; then
+        echo "* Deleting: '$CONFIG_DIR/$i'"
+        rm -fr "$CONFIG_DIR/$i"
+    fi
+    ln -s "$CWD/config-$i/$i" "$CONFIG_DIR"
 done
 
 # make .zshrc link
 ln -s -i "$CWD/config-zsh/.zshrc" ~/.zshrc
-
-
-# --- install brew and tools ---------------------------------------------------
-
-if [ $UNAME = "Darwin" ] ; then
-    echo ""
-    echo "-------------------------------------------------"
-    echo "|                                               |"
-    echo "|       macOS detected, installing tools        |"
-    echo "|                                               |"
-    echo "-------------------------------------------------"
-
-
-    if ! command -v brew &> /dev/null ; then
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    fi
-
-    for i in "${TOOLS_LIST[@]}"
-    do
-        brew install $i
-    done
-fi
 
 
 # --- print next steps ---------------------------------------------------------
