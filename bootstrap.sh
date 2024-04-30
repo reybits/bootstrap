@@ -20,14 +20,9 @@ fi
 CONFIGS_LIST=( nvim tmux vifm vim wezterm zsh )
 
 
-if [ $UNAME = "Darwin" ] ; then
-# --- list of tools to install -------------------------------------------------
-BREW_TOOLS_LIST=( nvim tmux vifm zoxide fd ripgrep fzf 7zip )
+# --- macOS: brew --------------------------------------------------------------
 
-
-# --- install brew -------------------------------------------------------------
-
-if ! command -v brew &> /dev/null ; then
+helpBrewNotInstalled() {
     echo ""
     echo "-------------------------------------------------"
     echo "|                                               |"
@@ -42,32 +37,37 @@ if ! command -v brew &> /dev/null ; then
     echo ""
     echo "Then run 'bottstrap.sh' again."
     echo ""
-
-    exit
-fi
-
-
-# --- install brew and tools ---------------------------------------------------
+}
 
 if [ $UNAME = "Darwin" ] ; then
     echo ""
     echo "-------------------------------------------------"
     echo "|                                               |"
-    echo "|       macOS detected, installing tools        |"
+    echo "|                macOS detected                 |"
     echo "|                                               |"
     echo "-------------------------------------------------"
 
-
+    # install brew
     if ! command -v brew &> /dev/null ; then
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        helpBrewNotInstalled
+        exit
     fi
+
+    # list of tools to install
+    BREW_TOOLS_LIST=( nvim tmux vifm zoxide fd ripgrep fzf 7zip )
+
+    # install tools
+    echo ""
+    echo "-------------------------------------------------"
+    echo "|                                               |"
+    echo "|               installing tools                |"
+    echo "|                                               |"
+    echo "-------------------------------------------------"
 
     for i in "${BREW_TOOLS_LIST[@]}"
     do
         brew install $i
     done
-fi
-
 fi
 
 
