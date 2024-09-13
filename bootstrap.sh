@@ -1,4 +1,9 @@
 #!/bin/sh
+#
+# Andrey A. Ugolnik
+# https://www.ugolnik.info
+# andrey@ugolnik.info
+#
 # TODO: Check dirs and files existance
 
 
