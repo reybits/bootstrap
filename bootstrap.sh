@@ -1,10 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 #
 # Andrey A. Ugolnik
 # https://www.ugolnik.info
 # andrey@ugolnik.info
 #
-# TODO: Check dirs and files existance
 
 
 # --- common vars --------------------------------------------------------------
@@ -180,12 +179,18 @@ echo "-------------------------------------------------"
 
 for i in "${CONFIGS_LIST[@]}"
 do
-    if [ -d "$CONFIG_DIR/$i" ]; then
-        echo "* Deleting: '$CONFIG_DIR/$i'"
-        rm -fr "$CONFIG_DIR/$i"
+    if [[ -d "$CONFIG_DIR/$i" && ! -L "$CONFIG_DIR/$i" ]]; then
+        echo "* Moving: '$CONFIG_DIR/$i' to '$CONFIG_DIR/$i-old'"
+        mv "$CONFIG_DIR/$i" "$CONFIG_DIR/$i-old"
     fi
-    ln -s "$CWD/config-$i/$i" "$CONFIG_DIR"
+
+    if [[ $i != "vim" ]]; then
+        ln -s -i "$CWD/config-$i/$i" "$CONFIG_DIR"
+    fi
 done
+
+# make .vim link
+ln -s -i "$CWD/config-vim/vim" ~/.vim
 
 # make .zshrc link
 ln -s -i "$CWD/config-zsh/.zshrc" ~/.zshrc
