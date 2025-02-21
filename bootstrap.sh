@@ -17,8 +17,8 @@ if [ ! -d $CONFIG_DIR ]; then
     mkdir $CONFIG_DIR
 fi
 
-# CONFIGS_LIST=( alacritty bash lazygit nvim tmux vifm vim wezterm kitty zsh )
-CONFIGS_LIST=(nvim tmux vifm vim kitty zsh)
+# CONFIGS_LIST=(alacritty bash lazygit nvim tmux vifm vim wezterm kitty zsh)
+CONFIGS_LIST=(nvim tmux vifm vim wezterm zsh)
 
 # --- list of tools to install -------------------------------------------------
 BREW_TOOLS_LIST=(kitty nvim tmux vifm zoxide fd ripgrep fzf 7zip)
