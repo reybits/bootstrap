@@ -5,12 +5,10 @@
 # andrey@ugolnik.info
 #
 
-
 # --- common vars --------------------------------------------------------------
 
 CWD=$(pwd)
 UNAME=$(uname -s)
-
 
 # --- list of configs to install -----------------------------------------------
 
@@ -20,12 +18,10 @@ if [ ! -d $CONFIG_DIR ]; then
 fi
 
 # CONFIGS_LIST=( alacritty bash lazygit nvim tmux vifm vim wezterm kitty zsh )
-CONFIGS_LIST=( nvim tmux vifm vim kitty zsh )
-
+CONFIGS_LIST=(nvim tmux vifm vim kitty zsh)
 
 # --- list of tools to install -------------------------------------------------
-BREW_TOOLS_LIST=( kitty nvim tmux vifm zoxide fd ripgrep fzf 7zip )
-
+BREW_TOOLS_LIST=(kitty nvim tmux vifm zoxide fd ripgrep fzf 7zip)
 
 # --- macOS: brew --------------------------------------------------------------
 
@@ -46,7 +42,7 @@ helpBrewNotInstalled() {
     echo ""
 }
 
-if [ $UNAME = "Darwin" ] ; then
+if [ $UNAME = "Darwin" ]; then
     echo ""
     echo "-------------------------------------------------"
     echo "|                                               |"
@@ -55,7 +51,7 @@ if [ $UNAME = "Darwin" ] ; then
     echo "-------------------------------------------------"
 
     # install brew
-    if ! command -v brew &> /dev/null ; then
+    if ! command -v brew &>/dev/null; then
         helpBrewNotInstalled
         exit
     fi
@@ -68,12 +64,10 @@ if [ $UNAME = "Darwin" ] ; then
     echo "|                                               |"
     echo "-------------------------------------------------"
 
-    for i in "${BREW_TOOLS_LIST[@]}"
-    do
+    for i in "${BREW_TOOLS_LIST[@]}"; do
         brew install $i
     done
 fi
-
 
 # --- install zsh --------------------------------------------------------------
 
@@ -106,7 +100,6 @@ if [ ! -d "$ZSH" ]; then
     exit
 fi
 
-
 # --- zsh plugins --------------------------------------------------------------
 
 ZSH_CUSTOM=${ZSH_CUSTOM:-$ZSH/custom}
@@ -126,7 +119,8 @@ zshPluginInstallUpdate() {
         git clone $PLUG_URL $PLUG_PATH
     else
         echo "* Updating $2..."
-        cd $PLUG_PATH && git pull -p >/dev/null ; cd - >/dev/null
+        cd $PLUG_PATH && git pull -p >/dev/null
+        cd - >/dev/null
     fi
 }
 
@@ -139,7 +133,6 @@ zshPluginInstallUpdate "https://github.com/zsh-users/zsh-autosuggestions" "plugi
 # install zsh-syntax-highlighting
 zshPluginInstallUpdate "https://github.com/zsh-users/zsh-syntax-highlighting.git" "plugins/zsh-syntax-highlighting"
 
-
 # --- clone or update ----------------------------------------------------------
 
 echo ""
@@ -149,24 +142,22 @@ echo "|           Cloning/Updating configs            |"
 echo "|                                               |"
 echo "-------------------------------------------------"
 
-for i in "${CONFIGS_LIST[@]}"
-do
+for i in "${CONFIGS_LIST[@]}"; do
     cd $CWD
     if [ ! -d "config-$i" ]; then
         echo "* Cloning config-$i..."
-        git clone git@bitbucket.org:andreyu/config-$i.git && \
-            cd "config-$i" && \
+        git clone git@github.com:andreyugolnik/config-$i.git &&
+            cd "config-$i" &&
             git submodule update --init
     else
         echo "* Updating config-$i..."
-        cd "config-$i" && \
-            git pull -p >/dev/null && \
+        cd "config-$i" &&
+            git pull -p >/dev/null &&
             git submodule update --init >/dev/null
     fi
 done
 
 cd $CWD
-
 
 # ---  make links --------------------------------------------------------------
 
@@ -177,8 +168,7 @@ echo "|                Setting links                  |"
 echo "|                                               |"
 echo "-------------------------------------------------"
 
-for i in "${CONFIGS_LIST[@]}"
-do
+for i in "${CONFIGS_LIST[@]}"; do
     if [[ -d "$CONFIG_DIR/$i" && ! -L "$CONFIG_DIR/$i" ]]; then
         echo "* Moving: '$CONFIG_DIR/$i' to '$CONFIG_DIR/$i-old'"
         mv "$CONFIG_DIR/$i" "$CONFIG_DIR/$i-old"
@@ -194,7 +184,6 @@ ln -s -i "$CWD/config-vim/vim" ~/.vim
 
 # make .zshrc link
 ln -s -i "$CWD/config-zsh/.zshrc" ~/.zshrc
-
 
 # --- print next steps ---------------------------------------------------------
 
@@ -214,4 +203,3 @@ echo "Then make this steps:"
 echo "1. Configure zsh theme: 'p10k configure'"
 echo "2. Run and configure tmux:  'tmux', press 'prefix + I' to install plugins."
 echo ""
-
