@@ -146,7 +146,7 @@ for i in "${CONFIGS_LIST[@]}"; do
     cd $CWD
     if [ ! -d "config-$i" ]; then
         echo "* Cloning config-$i..."
-        git clone git@github.com:andreyugolnik/config-$i.git &&
+        git clone git@github.com:raybits/config-$i.git &&
             cd "config-$i" &&
             git submodule update --init
     else
