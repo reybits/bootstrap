@@ -23,7 +23,7 @@ The recommended **bootstrap.sh** directory is *~/configs/*.
 ```sh
 mkdir ~/configs
 cd ~/configs
-git clone git@bitbucket.org:andreyu/bootstrap.git
+git clone git@github.com:reybits/bootstrap.git
 ./bootstrap.sh
 ```
 
