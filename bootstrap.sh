@@ -17,11 +17,31 @@ if [ ! -d $CONFIG_DIR ]; then
     mkdir $CONFIG_DIR
 fi
 
-# CONFIGS_LIST=(alacritty bash lazygit nvim tmux vifm vim wezterm kitty zsh)
-CONFIGS_LIST=(nvim tmux vifm vim wezterm zsh)
+CONFIGS_LIST=(
+    wezterm
+    # kitty
+    # alacritty
+    tmux
+    nvim
+    vim
+    vifm
+    zsh
+    # bash
+    # lazygit
+)
 
 # --- list of tools to install -------------------------------------------------
-BREW_TOOLS_LIST=(wezterm nvim tmux vifm zoxide fd ripgrep fzf 7zip)
+BREW_TOOLS_LIST=(
+    wezterm
+    tmux
+    nvim
+    vifm
+    zoxide
+    fd
+    ripgrep
+    fzf
+    7zip
+)
 
 # --- macOS: brew --------------------------------------------------------------
 
