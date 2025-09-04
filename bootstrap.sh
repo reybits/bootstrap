@@ -21,7 +21,7 @@ fi
 CONFIGS_LIST=(nvim tmux vifm vim wezterm zsh)
 
 # --- list of tools to install -------------------------------------------------
-BREW_TOOLS_LIST=(kitty nvim tmux vifm zoxide fd ripgrep fzf 7zip)
+BREW_TOOLS_LIST=(wezterm nvim tmux vifm zoxide fd ripgrep fzf 7zip)
 
 # --- macOS: brew --------------------------------------------------------------
 
@@ -146,7 +146,7 @@ for i in "${CONFIGS_LIST[@]}"; do
     cd $CWD
     if [ ! -d "config-$i" ]; then
         echo "* Cloning config-$i..."
-        git clone git@github.com:raybits/config-$i.git &&
+        git clone git@github.com:reybits/config-$i.git &&
             cd "config-$i" &&
             git submodule update --init
     else
