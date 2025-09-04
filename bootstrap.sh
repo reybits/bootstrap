@@ -85,7 +85,8 @@ if [ $UNAME = "Darwin" ]; then
     echo "-------------------------------------------------"
 
     for i in "${BREW_TOOLS_LIST[@]}"; do
-        brew install $i
+        echo "* Installing $i..."
+        brew install -q $i
     done
 fi
 
